@@ -1,0 +1,632 @@
+---
+const title = "Pedro Masdy | Data and AI Analyst";
+const description = "Pedro Masdy is a Data and AI Analyst. Thesis-grade churn prediction (AUC 0.9377), SQL and Python analysis, and production web systems.";
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --navy: #0a192f;
+      --navy-light: #112240;
+      --navy-lighter: #233554;
+      --text: #ccd6f6;
+      --muted: #8892b0;
+      --mint: #64ffda;
+      --white: #e6f1ff;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 120px; }
+    body {
+      margin: 0;
+      background: var(--navy);
+      color: var(--text);
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--mint); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+    /* Fixed top nav, v4 style */
+    header.nav {
+      position: fixed; inset: 0 0 auto 0; z-index: 20;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 50px; height: 100px; background: rgba(10, 25, 47, 0.98);
+      backdrop-filter: blur(10px);
+    }
+    header.nav .logo { display: flex; align-items: center; color: var(--mint); }
+    header.nav .logo svg { width: 46px; height: 46px; }
+    header.nav .logo:hover { text-decoration: none; }
+    header.nav nav { display: flex; gap: 36px; align-items: center; }
+    header.nav nav a { color: var(--text); font-size: 16px; }
+    header.nav nav a span { color: var(--mint); margin-right: 5px; }
+    header.nav nav a:hover { color: var(--mint); text-decoration: none; }
+    .btn {
+      display: inline-block; padding: 16px 24px; font-family: "JetBrains Mono", ui-monospace, monospace;
+      border: 1px solid var(--mint); border-radius: 4px;
+      color: var(--mint); font-size: 15px;
+    }
+    .btn:hover { background: rgba(100, 255, 218, 0.1); text-decoration: none; }
+    .lang-toggle { display: flex; gap: 6px; align-items: center; }
+    .lang-toggle button { background: none; border: none; cursor: pointer; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 15px; color: var(--muted); padding: 4px 2px; }
+    .lang-toggle button:hover { color: var(--mint); }
+    .lang-toggle button.active { color: var(--mint); }
+    .lang-toggle .sep { color: var(--muted); }
+    .mobile-menu .lang-toggle { padding: 12px 0 4px; }
+    .mobile-menu { display: none; }
+    .mobile-menu summary { list-style: none; cursor: pointer; color: var(--mint); font-size: 15px; }
+    .mobile-menu nav { display: flex; flex-direction: column; gap: 12px; padding: 16px 0 4px; }
+    .mobile-menu nav a { color: var(--text); font-size: 14px; }
+
+    /* Fixed sidebars, v4 style, with the user-requested thicker line */
+    .side { position: fixed; bottom: 0; z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    .side.left { left: 40px; }
+    .side.right { right: 40px; }
+    .side.right a { writing-mode: vertical-rl; font-size: 14px; letter-spacing: 0.1em; color: var(--muted); }
+    .side.right a:hover { color: var(--mint); text-decoration: none; }
+    .side .line { width: 2px; height: 160px; background: var(--text); }
+    .side.left a { color: var(--muted); display: flex; }
+    .side.left a svg { width: 24px; height: 24px; fill: currentColor; }
+    .side.left a.instagram svg { fill: none; stroke: currentColor; stroke-width: 1.5; }
+    .side.left a:hover { color: var(--mint); transform: translateY(-3px); }
+    .side.left a { transition: transform 0.2s ease, color 0.2s ease; }
+
+    main { max-width: 1600px; margin: 0 auto; padding: 0 150px 80px; }
+    #about .about-grid, #about .section-head { max-width: 900px; margin-left: auto; margin-right: auto; }
+    #experience .jobs, #experience .section-head { max-width: 1000px; margin-left: auto; margin-right: auto; }
+    #projects .featured, #projects .grid, #projects .section-head { max-width: 1000px; margin-left: auto; margin-right: auto; }
+    #projects h3:not(.card h3):not(.feat-text h3) { max-width: 1000px; margin-left: auto; margin-right: auto; }
+    #journey .orgs, #journey .section-head, #certifications .grid, #certifications .section-head { max-width: 1000px; margin-left: auto; margin-right: auto; }
+    section { padding: 140px 0 40px; scroll-margin-top: 120px; }
+    .section-head { display: flex; align-items: center; gap: 16px; margin-bottom: 40px; }
+    .section-head .num { color: var(--mint); font-size: 20px; font-weight: 400; }
+    .section-head h2 { margin: 0; color: var(--white); font-size: 36px; font-weight: 700; line-height: 1.1; white-space: nowrap; }
+    .section-head .rule { flex: 1; height: 1px; background: var(--navy-lighter); max-width: 300px; }
+
+    /* Hero, full height, v4 style */
+    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 100px 0 0; }
+    .hero .intro { color: var(--mint); font-size: 18px; margin: 0 0 20px; }
+    .hero h1 { margin: 0; color: var(--white); font-size: clamp(48px, 8vw, 88px); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
+    .hero h2 { margin: 0 0 28px; color: var(--muted); font-size: clamp(48px, 8vw, 88px); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
+    .hero p { max-width: 540px; color: var(--muted); font-size: 20px; margin: 0; }
+    .hero .cta { margin-top: 50px; }
+    .hero .cta .btn { padding: 20px 32px; font-size: 16px; }
+
+    /* About: text left, photo right with offset mint frame */
+    .about-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 50px; align-items: start; }
+    .about-grid p { color: var(--muted); font-size: 18px; }
+    .about-grid p strong { color: var(--text); font-weight: 500; }
+    .skills { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; padding: 0; margin: 24px 0 0; list-style: none; }
+    .skills li { color: var(--text); font-size: 15px; }
+    .skills li::before { content: "▹ "; color: var(--mint); }
+    .photo-wrap { position: relative; max-width: 300px; margin-left: auto; background: var(--mint); border-radius: 4px; }
+    .photo-wrap:hover { background: transparent; }
+    .photo-wrap::after {
+      content: ""; position: absolute; inset: 0; z-index: 0;
+      border: 2px solid var(--mint); border-radius: 4px;
+      transform: translate(20px, 20px); transition: transform 0.25s ease;
+    }
+    .photo-wrap:hover::after { transform: translate(15px, 15px); }
+    .photo-wrap:hover img { filter: none; mix-blend-mode: normal; }
+    .photo-wrap img { position: relative; z-index: 1; display: block; width: 100%; border-radius: 4px; mix-blend-mode: multiply; filter: grayscale(100%) contrast(1); transition: filter 0.25s ease, mix-blend-mode 0.25s ease; }
+
+    /* Experience: v4-style tabs */
+    .jobs { display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: start; }
+    .job-tabs { display: flex; flex-direction: column; border-left: 2px solid var(--navy-lighter); }
+    .job-tabs button {
+      background: none; border: none; border-left: 2px solid transparent; margin-left: -2px;
+      padding: 12px 20px; text-align: left; cursor: pointer;
+      color: var(--muted); font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 15px;
+    }
+    .job-tabs button:hover { color: var(--mint); background: var(--navy-light); }
+    .job-tabs button.active { color: var(--mint); border-left-color: var(--mint); background: var(--navy-light); }
+    .job-panel { display: none; }
+    .job-panel.active { display: block; }
+    .job-panel h3 { margin: 0 0 4px; color: var(--white); font-size: 26px; font-weight: 600; }
+    .job-panel h3 span { color: var(--mint); }
+    .job-panel .meta { color: var(--muted); font-size: 15px; margin: 0 0 20px; }
+    .job-panel p { color: var(--muted); margin: 0; font-size: 18px; }
+    .job-panel ul { color: var(--muted); margin: 0; padding-left: 0; list-style: none; font-size: 18px; }
+    .job-panel li { position: relative; margin-bottom: 12px; padding-left: 30px; }
+    .job-panel li::before { content: "\25b9"; position: absolute; left: 0; color: var(--mint); }
+
+    /* Featured projects: alternating text / visual panel */
+    .featured { display: grid; grid-template-columns: repeat(12, 1fr); margin-bottom: 100px; align-items: center; }
+    .featured .feat-text { grid-column: 1 / 8; grid-row: 1; z-index: 2; padding: 0; }
+    .featured .feat-panel { grid-column: 7 / 13; grid-row: 1; }
+    .featured.reverse .feat-text { grid-column: 6 / 13; text-align: right; }
+    .featured.reverse .feat-panel { grid-column: 1 / 7; }
+    .featured.reverse .feat-tech { justify-content: flex-end; }
+    .feat-label { color: var(--mint); font-size: 15px; margin: 0 0 10px; }
+    .feat-text h3 a { color: var(--white); }
+    .feat-text h3 a:hover { color: var(--mint); text-decoration: none; }
+    .feat-text h3 { margin: 0 0 16px; color: var(--white); font-size: 32px; font-weight: 700; line-height: 1.2; }
+    .feat-text p { color: var(--muted); margin: 0 0 20px; font-size: 18px; }
+    .feat-tech { display: flex; flex-wrap: wrap; gap: 18px; padding: 0; margin: 0; list-style: none; color: var(--muted); font-size: 15px; }
+    .feat-panel {
+      min-height: 360px; display: flex; flex-direction: column; justify-content: center; gap: 12px;
+      padding: 40px; background: var(--navy-light); border: 1px solid var(--navy-lighter); border-radius: 4px;
+      box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+    }
+    .feat-panel .metric { color: var(--mint); font-size: 40px; font-weight: 700; line-height: 1.2; }
+    .feat-panel p { color: var(--text); margin: 0; font-size: 20px; }
+
+    /* Other projects: folder-icon cards, v4 style */
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .grid .card {
+      display: flex; flex-direction: column; min-height: 300px;
+      border: none; border-radius: 4px; background: var(--navy-light); padding: 32px 28px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .grid .card:hover { transform: translateY(-7px); box-shadow: 0 20px 30px -15px rgba(2, 12, 27, 0.7); }
+    .grid .card .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+    .grid .card .card-top .folder { margin-bottom: 0; }
+    .grid .card .card-links { display: flex; gap: 12px; color: var(--muted); }
+    .grid .card .card-links a { color: var(--muted); }
+    .grid .card .card-links a:hover { color: var(--mint); }
+    .grid .card .card-links svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+    .grid .card .folder { color: var(--mint); margin-bottom: 20px; }
+    .grid .card .folder svg { width: 48px; height: 48px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+    .grid .card h3 a { color: var(--white); }
+    .grid .card h3 a:hover { color: var(--mint); text-decoration: none; }
+    .grid .card h3 { margin: 0 0 12px; color: var(--white); font-size: 24px; font-weight: 600; line-height: 1.25; }
+    .grid .card p { color: var(--muted); font-size: 18px; margin: 0 0 auto; }
+    .grid .card .tech { color: var(--muted); font-size: 14px; margin-top: 24px; }
+
+    /* Journey, certifications */
+    .orgs, .certs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .plain-card { background: var(--navy-light); border-radius: 4px; padding: 28px; }
+    .plain-card h3 { margin: 0 0 10px; color: var(--white); font-size: 24px; font-weight: 600; line-height: 1.25; }
+    .plain-card p { color: var(--muted); margin: 0 0 16px; font-size: 18px; }
+
+    /* Contact, v4 centered style */
+    .contact { text-align: center; max-width: 600px; margin: 0 auto; }
+    .contact .label { color: var(--mint); font-size: 18px; margin: 0 0 20px; }
+    .contact h2 { color: var(--white); font-size: clamp(48px, 6vw, 68px); font-weight: 800; line-height: 1.1; margin: 0 0 18px; }
+    .contact p { color: var(--muted); font-size: 18px; }
+    .contact .cta { margin-top: 50px; }
+    .contact .cta .btn { padding: 20px 32px; font-size: 16px; }
+    .contact-links { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-top: 36px; font-size: 16px; }
+    footer { text-align: center; color: var(--muted); font-size: 12px; padding: 60px 24px 20px; }
+
+    .fade { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade.visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .fade { opacity: 1; transform: none; transition: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    @media (max-width: 900px) {
+      .grid, .orgs, .certs { grid-template-columns: 1fr 1fr; }
+      .about-grid, .featured { grid-template-columns: 1fr; }
+      .featured .feat-text, .featured.reverse .feat-text { grid-column: auto; grid-row: auto; text-align: left; padding: 0 0 24px; }
+      .featured .feat-panel, .featured.reverse .feat-panel { grid-column: auto; grid-row: auto; }
+      .featured.reverse .feat-tech { justify-content: flex-start; }
+      .photo-wrap { margin-left: 0; }
+      .jobs { grid-template-columns: 1fr; }
+      .job-tabs { flex-direction: row; border-left: none; border-bottom: 2px solid var(--navy-lighter); overflow-x: auto; }
+      .job-tabs button { border-left: none; border-bottom: 2px solid transparent; margin: 0 0 -2px; white-space: nowrap; }
+      .job-tabs button.active { border-bottom-color: var(--mint); }
+    }
+    @media (max-width: 1080px) {
+      main { padding: 0 100px 80px; }
+    }
+    @media (max-width: 768px) {
+      .side { display: none; }
+      header.nav { padding: 0 20px; height: 80px; }
+      header.nav .desktop-nav { display: none; }
+      .mobile-menu { display: block; }
+      section { padding: 110px 0 20px; scroll-margin-top: 100px; }
+      .grid, .orgs, .certs { grid-template-columns: 1fr; }
+      main { padding: 0 20px 60px; }
+      .section-head h2 { white-space: normal; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <a class="logo" href="#top" aria-label="Pedro Masdy home"><svg viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 93,28 93,72 50,96 7,72 7,28" fill="none" stroke="currentColor" stroke-width="5"/><text x="50" y="64" text-anchor="middle" font-size="34" font-weight="700" fill="currentColor" font-family="JetBrains Mono, monospace">PM</text></svg></a>
+    <nav class="desktop-nav mono" aria-label="Main">
+      <a href="#about"><span>01.</span><span data-en="About" data-id="Tentang">About</span></a>
+      <a href="#experience"><span>02.</span><span data-en="Experience" data-id="Pengalaman">Experience</span></a>
+      <a href="#projects"><span>03.</span><span data-en="Projects" data-id="Proyek">Projects</span></a>
+      <a href="#certifications"><span>04.</span><span data-en="Certifications" data-id="Sertifikasi">Certifications</span></a>
+      <a href="#contact"><span>05.</span><span data-en="Contact" data-id="Kontak">Contact</span></a>
+      <a class="btn" href="/cv/CV_Master_Pedro_v2.pdf" target="_blank" rel="noreferrer">Resume</a>
+      <span class="lang-toggle mono" role="group" aria-label="Language"><button type="button" data-lang-btn="en" class="active" aria-pressed="true">EN</button><span class="sep">/</span><button type="button" data-lang-btn="id" aria-pressed="false">ID</button></span>
+    </nav>
+    <details class="mobile-menu">
+      <summary class="mono">Menu</summary>
+      <nav class="mono" aria-label="Mobile">
+        <a href="#about">01. <span data-en="About" data-id="Tentang">About</span></a>
+        <a href="#experience">02. <span data-en="Experience" data-id="Pengalaman">Experience</span></a>
+        <a href="#projects">03. <span data-en="Projects" data-id="Proyek">Projects</span></a>
+        <a href="#certifications">04. <span data-en="Certifications" data-id="Sertifikasi">Certifications</span></a>
+        <a href="#contact">05. <span data-en="Contact" data-id="Kontak">Contact</span></a>
+        <a href="/cv/CV_Master_Pedro_v2.pdf" target="_blank" rel="noreferrer">Resume</a>
+        <span class="lang-toggle mono" role="group" aria-label="Language"><button type="button" data-lang-btn="en" class="active" aria-pressed="true">EN</button><span class="sep">/</span><button type="button" data-lang-btn="id" aria-pressed="false">ID</button></span>
+      </nav>
+    </details>
+  </header>
+
+  <div class="side left" aria-label="Social links">
+    <a href="https://github.com/Pdrsmth" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.7 5.39-5.26 1.68.42.36.79 1.07.79 2.16v3.2c0 .31.21.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg></a>
+    <a href="https://linkedin.com/in/pedro-masdy/" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg></a>
+    <a class="instagram" href="https://instagram.com/pedrooouuuzzz" target="_blank" rel="noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+    <a href="mailto:pedromasdy9@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5.5A2.5 2.5 0 0 1 4.5 3h15A2.5 2.5 0 0 1 22 5.5v13A2.5 2.5 0 0 1 19.5 21h-15A2.5 2.5 0 0 1 2 18.5v-13Zm2.3.4 7.7 6.1 7.7-6.1a.8.8 0 0 0-.5-.2H4.8a.8.8 0 0 0-.5.2Zm15.4 1.4-7.7 6.1-7.7-6.1v11.2a.8.8 0 0 0 .8.8h13.8a.8.8 0 0 0 .8-.8V7.3Z"/></svg></a>
+    <span class="line" aria-hidden="true"></span>
+  </div>
+  <div class="side right mono" aria-label="Email">
+    <a href="mailto:pedromasdy9@gmail.com">pedromasdy9@gmail.com</a>
+    <span class="line" aria-hidden="true"></span>
+  </div>
+
+  <main id="top">
+    <section class="hero fade">
+      <p class="intro mono" data-en="Hi, my name is" data-id="Hai, nama saya">Hi, my name is</p>
+      <h1>Pedro Masdy.</h1>
+      <h2>Data and AI Analyst.</h2>
+      <p data-en="I turn messy data into decisions people can act on. My thesis-grade churn prediction model, built with Grey Wolf Optimizer, Attention and ConvLSTM, reached an AUC of 0.9377. I work across SQL, Python and pandas, and I have shipped two production web systems with PHP and MySQL." data-id="Saya mengubah data yang berantakan menjadi keputusan yang bisa ditindaklanjuti. Model prediksi churn tingkat skripsi saya, yang dibangun dengan Grey Wolf Optimizer, Attention, dan ConvLSTM, mencapai AUC 0.9377. Saya bekerja dengan SQL, Python, dan pandas, dan telah meluncurkan dua sistem web produksi dengan PHP dan MySQL.">
+        I turn messy data into decisions people can act on. My thesis-grade churn
+        prediction model, built with Grey Wolf Optimizer, Attention and ConvLSTM,
+        reached an AUC of 0.9377. I work across SQL, Python and pandas, and I have
+        shipped two production web systems with PHP and MySQL.
+      </p>
+      <div class="cta">
+        <a class="btn" href="#contact" data-en="Get in Touch" data-id="Hubungi Saya">Get in Touch</a>
+      </div>
+    </section>
+
+    <section id="about" class="fade">
+      <div class="section-head">
+        <span class="num mono">01.</span><h2 data-en="About" data-id="Tentang">About</h2><span class="rule"></span>
+      </div>
+      <div class="about-grid">
+        <div>
+          <p data-en="Hello! My name is Pedro, and I enjoy turning messy data into decisions people can act on. I graduated in Information Systems from UIN Sultan Syarif Kasim Riau in 7 semesters, with a GPA of 3.71 out of 4.00." data-id="Halo! Nama saya Pedro, dan saya senang mengubah data yang berantakan menjadi keputusan yang bisa ditindaklanjuti. Saya lulus dari Program Studi Sistem Informasi UIN Sultan Syarif Kasim Riau dalam 7 semester, dengan IPK 3.71 dari 4.00.">
+            Hello! My name is Pedro, and I enjoy turning messy data into decisions
+            people can act on. I graduated in Information Systems from UIN Sultan
+            Syarif Kasim Riau in 7 semesters, with a GPA of 3.71 out of 4.00.
+          </p>
+          <p data-en="My work sits at the intersection of analysis and building: cleaning data, testing what it actually says, and presenting it so the next step is obvious. Alongside analysis, I have worked in IT and data roles in education and in a Generative AI internship at Indonesia's Ministry of Manpower, and I led a 75-person organising committee." data-id="Pekerjaan saya berada di persimpangan antara analisis dan pembangunan: membersihkan data, menguji apa yang sebenarnya dikatakan data, dan menyajikannya sehingga langkah berikutnya menjadi jelas. Selain analisis, saya pernah bekerja dalam peran IT dan data di bidang pendidikan dan dalam magang Generative AI di Kementerian Ketenagakerjaan RI, dan saya memimpin panitia beranggotakan 75 orang.">
+            My work sits at the intersection of analysis and building: cleaning data,
+            testing what it actually says, and presenting it so the next step is
+            obvious. Alongside analysis, I have worked in IT and data roles in
+            education and in a Generative AI internship at Indonesia&rsquo;s Ministry of
+            Manpower, and I led a 75-person organising committee.
+          </p>
+          <p data-en="Here are a few technologies I've been working with recently:" data-id="Berikut beberapa teknologi yang belakangan ini saya gunakan:">Here are a few technologies I&rsquo;ve been working with recently:</p>
+          <ul class="skills mono">
+            <li>Python (pandas, scikit-learn)</li>
+            <li>SQL</li>
+            <li>Data cleaning</li>
+            <li>EDA</li>
+            <li>Dashboards (Excel, Power BI)</li>
+            <li>Machine learning</li>
+            <li>Deep learning</li>
+            <li>PHP</li>
+            <li>MySQL</li>
+            <li>JavaScript</li>
+          </ul>
+        </div>
+        <div class="photo-wrap">
+          <img src="/pedro.png" alt="Portrait of Pedro Masdy" />
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="fade">
+      <div class="section-head">
+        <span class="num mono">02.</span><h2 data-en="Where I've Worked" data-id="Tempat Saya Bekerja">Where I&rsquo;ve Worked</h2><span class="rule"></span>
+      </div>
+      <div class="jobs">
+        <div class="job-tabs" role="tablist" aria-label="Employers">
+          <button type="button" role="tab" aria-selected="true" data-job="kemnaker">Kemnaker RI</button>
+          <button type="button" role="tab" aria-selected="false" data-job="sman">SMAN 1 Pangkalan</button>
+          <button type="button" role="tab" aria-selected="false" data-job="admin">Admin Prodi</button>
+          <button type="button" role="tab" aria-selected="false" data-job="network">Network Team</button>
+          <button type="button" role="tab" aria-selected="false" data-job="lab">Lab Assistant</button>
+        </div>
+        <div>
+          <article class="job-panel active" id="job-kemnaker" role="tabpanel">
+            <h3><span data-en="Generative AI Engineer Intern" data-id="Magang Generative AI Engineer">Generative AI Engineer Intern</span> <span>@ Kementerian Ketenagakerjaan RI</span></h3>
+            <p class="meta mono" data-en="October &ndash; December 2025" data-id="Oktober &ndash; Desember 2025">October &ndash; December 2025</p>
+            <ul><li data-en="Supported planning and implementation of 6 automation initiatives (ChatGPT, Claude, Perplexity, Suno AI, n8n, Gemini), accelerating internal workflow automation across 3+ departments." data-id="Mendukung perencanaan dan penerapan 6 inisiatif otomasi (ChatGPT, Claude, Perplexity, Suno AI, n8n, Gemini), yang mempercepat otomasi alur kerja internal di 3+ departemen.">Supported planning and implementation of 6 automation initiatives (ChatGPT, Claude, Perplexity, Suno AI, n8n, Gemini), accelerating internal workflow automation across 3+ departments.</li><li data-en="Performed analytical and structural assessments on 2,500+ data points, delivering insights that supported faster operational decision-making, reducing review cycles by ~40%." data-id="Melakukan penilaian analitis dan struktural terhadap 2,500+ titik data, menghasilkan wawasan yang mendukung pengambilan keputusan operasional yang lebih cepat, sehingga siklus peninjauan berkurang sekitar 40%.">Performed analytical and structural assessments on 2,500+ data points, delivering insights that supported faster operational decision-making, reducing review cycles by ~40%.</li><li data-en="Leveraged critical thinking to solve problems and optimize 5+ workflows, improving process efficiency across the division by an estimated 25%." data-id="Memanfaatkan pemikiran kritis untuk memecahkan masalah dan mengoptimalkan 5+ alur kerja, sehingga efisiensi proses di divisi meningkat sekitar 25%.">Leveraged critical thinking to solve problems and optimize 5+ workflows, improving process efficiency across the division by an estimated 25%.</li><li data-en="Collaborated with 3+ cross-functional teams to translate generative AI capabilities into practical operational use cases, increasing AI tool adoption within the team by ~60%." data-id="Berkolaborasi dengan 3+ tim lintas fungsi untuk menerjemahkan kemampuan AI generatif menjadi kasus penggunaan operasional yang praktis, sehingga adopsi perangkat AI dalam tim meningkat sekitar 60%.">Collaborated with 3+ cross-functional teams to translate generative AI capabilities into practical operational use cases, increasing AI tool adoption within the team by ~60%.</li><li data-en="Documented 10+ workflows and findings to support knowledge-sharing within the division, enabling smoother onboarding and process replication for 4+ new members." data-id="Mendokumentasikan 10+ alur kerja dan temuan untuk mendukung berbagi pengetahuan di divisi, sehingga proses orientasi menjadi lebih lancar dan replikasi proses untuk 4+ anggota baru dapat dilakukan.">Documented 10+ workflows and findings to support knowledge-sharing within the division, enabling smoother onboarding and process replication for 4+ new members.</li></ul>
+          </article>
+          <article class="job-panel" id="job-sman" role="tabpanel">
+            <h3><span data-en="IT Technical Support Intern" data-id="Magang IT Technical Support">IT Technical Support Intern</span> <span>@ SMAN 1 Pangkalan Koto Baru</span></h3>
+            <p class="meta mono" data-en="May &ndash; September 2024" data-id="Mei &ndash; September 2024">May &ndash; September 2024</p>
+            <ul><li data-en="Processed and analyzed academic data of 500+ students using Microsoft Excel, generating structured reports that sped up administrative decision-making by ~3x vs. manual methods." data-id="Memproses dan menganalisis data akademik 500+ siswa menggunakan Microsoft Excel, menghasilkan laporan terstruktur yang mempercepat pengambilan keputusan administratif sekitar 3x dibandingkan metode manual.">Processed and analyzed academic data of 500+ students using Microsoft Excel, generating structured reports that sped up administrative decision-making by ~3x vs. manual methods.</li><li data-en="Supported development of 2 web-based administrative systems using PHP and SQL, and delivered digital-literacy training to 20 staff and students, improving system adoption by ~70%." data-id="Mendukung pengembangan 2 sistem administrasi berbasis web menggunakan PHP dan SQL, serta memberikan pelatihan literasi digital kepada 20 staf dan siswa, sehingga adopsi sistem meningkat sekitar 70%.">Supported development of 2 web-based administrative systems using PHP and SQL, and delivered digital-literacy training to 20 staff and students, improving system adoption by ~70%.</li><li data-en="Digitized previously manual administrative workflows across 5+ administrative areas, improving data accuracy and cutting reporting turnaround time for school leadership by ~50%." data-id="Mendigitalisasi alur kerja administrasi yang sebelumnya manual di 5+ bidang administrasi, sehingga akurasi data meningkat dan waktu penyelesaian laporan untuk pimpinan sekolah berkurang sekitar 50%.">Digitized previously manual administrative workflows across 5+ administrative areas, improving data accuracy and cutting reporting turnaround time for school leadership by ~50%.</li><li data-en="Assisted 15+ teachers and staff with day-to-day technical troubleshooting and system usage guidance, reducing downtime and reliance on external IT support by ~40%." data-id="Membantu 15+ guru dan staf dalam pemecahan masalah teknis sehari-hari dan panduan penggunaan sistem, sehingga waktu henti dan ketergantungan pada dukungan IT eksternal berkurang sekitar 40%.">Assisted 15+ teachers and staff with day-to-day technical troubleshooting and system usage guidance, reducing downtime and reliance on external IT support by ~40%.</li><li data-en="Coordinated with school administration to align 3+ system features with reporting requirements, ensuring the system met real operational needs and passed acceptance testing." data-id="Berkoordinasi dengan administrasi sekolah untuk menyelaraskan 3+ fitur sistem dengan kebutuhan pelaporan, sehingga sistem memenuhi kebutuhan operasional nyata dan lulus uji penerimaan.">Coordinated with school administration to align 3+ system features with reporting requirements, ensuring the system met real operational needs and passed acceptance testing.</li></ul>
+          </article>
+          <article class="job-panel" id="job-admin" role="tabpanel">
+            <h3><span data-en="Study Program Administrative Assistant" data-id="Asisten Administrasi Program Studi">Study Program Administrative Assistant</span> <span>@ UIN Sultan Syarif Kasim Riau</span></h3>
+            <p class="meta mono" data-en="February 2024 &ndash; January 2026" data-id="Februari 2024 &ndash; Januari 2026">February 2024 &ndash; January 2026</p>
+            <p data-en="Part-time voluntary administrative support for lecturers and the study program, managing student academic data and documents including KRS, KHS, transcripts, SKL, seminar administration and thesis defence administration." data-id="Dukungan administrasi paruh waktu secara sukarela untuk dosen dan program studi, mengelola data dan dokumen akademik mahasiswa termasuk KRS, KHS, transkrip, SKL, administrasi seminar, dan administrasi sidang skripsi.">Part-time voluntary administrative support for lecturers and the study program, managing student academic data and documents including KRS, KHS, transcripts, SKL, seminar administration and thesis defence administration.</p>
+          </article>
+          <article class="job-panel" id="job-network" role="tabpanel">
+            <h3><span data-en="Network Infrastructure Team" data-id="Tim Infrastruktur Jaringan">Network Infrastructure Team</span> <span>@ UIN Sultan Syarif Kasim Riau</span></h3>
+            <p class="meta mono" data-en="June &ndash; August 2024" data-id="Juni &ndash; Agustus 2024">June &ndash; August 2024</p>
+            <ul><li data-en="Implemented network infrastructure across 14 buildings, including UTP cable installation and RJ45 termination, expanding reliable network access for ~2,000+ campus users." data-id="Menerapkan infrastruktur jaringan di 14 gedung, termasuk pemasangan kabel UTP dan terminasi RJ45, sehingga akses jaringan yang andal meluas untuk sekitar 2,000+ pengguna kampus.">Implemented network infrastructure across 14 buildings, including UTP cable installation and RJ45 termination, expanding reliable network access for ~2,000+ campus users.</li><li data-en="Installed and configured 256 Ruijie access points in a systematic rollout, improving campus-wide WLAN coverage and connectivity stability by ~80% vs. previous setup." data-id="Memasang dan mengonfigurasi 256 access point Ruijie dalam peluncuran yang sistematis, sehingga cakupan WLAN dan stabilitas konektivitas di seluruh kampus meningkat sekitar 80% dibandingkan pengaturan sebelumnya.">Installed and configured 256 Ruijie access points in a systematic rollout, improving campus-wide WLAN coverage and connectivity stability by ~80% vs. previous setup.</li><li data-en="Collaborated within a 13-person team performing responsive LAN/WLAN troubleshooting in elevated/hard-to-reach areas, minimizing network downtime by ~35% per incident." data-id="Berkolaborasi dalam tim beranggotakan 13 orang yang melakukan pemecahan masalah LAN/WLAN secara responsif di area yang tinggi atau sulit dijangkau, sehingga waktu henti jaringan per insiden berkurang sekitar 35%.">Collaborated within a 13-person team performing responsive LAN/WLAN troubleshooting in elevated/hard-to-reach areas, minimizing network downtime by ~35% per incident.</li><li data-en="Tested and verified network connectivity post-installation across 256 nodes, ensuring stable campus-wide access with &lt;1% service disruption rate." data-id="Menguji dan memverifikasi konektivitas jaringan pasca-pemasangan di 256 node, sehingga akses yang stabil di seluruh kampus terjaga dengan tingkat gangguan layanan di bawah 1%.">Tested and verified network connectivity post-installation across 256 nodes, ensuring stable campus-wide access with &lt;1% service disruption rate.</li><li data-en="Documented 14-building installation progress and technical issues to support project reporting, enabling ~50% faster issue resolution and smoother project handover." data-id="Mendokumentasikan progres pemasangan di 14 gedung dan masalah teknis untuk mendukung pelaporan proyek, sehingga penyelesaian masalah menjadi sekitar 50% lebih cepat dan serah terima proyek berjalan lebih lancar.">Documented 14-building installation progress and technical issues to support project reporting, enabling ~50% faster issue resolution and smoother project handover.</li></ul>
+          </article>
+          <article class="job-panel" id="job-lab" role="tabpanel">
+            <h3><span data-en="IT Support and Laboratory Assistant" data-id="Asisten IT dan Laboratorium">IT Support and Laboratory Assistant</span> <span>@ Faculty of Science and Technology, UIN Suska Riau</span></h3>
+            <p class="meta mono" data-en="September 2023 &ndash; June 2024" data-id="September 2023 &ndash; Juni 2024">September 2023 &ndash; June 2024</p>
+            <ul><li data-en="Provided daily preventive and corrective technical support for 83 computer units across 3 laboratories, minimizing equipment downtime by ~40% vs. previous semester." data-id="Memberikan dukungan teknis preventif dan korektif harian untuk 83 unit komputer di 3 laboratorium, sehingga waktu henti peralatan berkurang sekitar 40% dibandingkan semester sebelumnya.">Provided daily preventive and corrective technical support for 83 computer units across 3 laboratories, minimizing equipment downtime by ~40% vs. previous semester.</li><li data-en="Installed Windows operating systems and maintained 4 specialized software tools (VS Code, Packet Tracer, XAMPP, and others), keeping labs consistently ready for 20+ practicum sessions per month." data-id="Memasang sistem operasi Windows dan memelihara 4 perangkat lunak khusus (VS Code, Packet Tracer, XAMPP, dan lainnya), sehingga laboratorium selalu siap untuk 20+ sesi praktikum per bulan.">Installed Windows operating systems and maintained 4 specialized software tools (VS Code, Packet Tracer, XAMPP, and others), keeping labs consistently ready for 20+ practicum sessions per month.</li><li data-en="Ensured LAN connectivity stability across 3 labs, independently resolving 10+ hardware issues per month to keep practicum sessions running without disruption." data-id="Menjaga stabilitas konektivitas LAN di 3 laboratorium, serta menyelesaikan 10+ masalah perangkat keras per bulan secara mandiri agar sesi praktikum berjalan tanpa gangguan.">Ensured LAN connectivity stability across 3 labs, independently resolving 10+ hardware issues per month to keep practicum sessions running without disruption.</li><li data-en="Assisted 50+ lecturers and students with software setup and troubleshooting during practicum sessions, reducing delays in class activities by ~30%." data-id="Membantu 50+ dosen dan mahasiswa dalam pengaturan perangkat lunak dan pemecahan masalah selama sesi praktikum, sehingga keterlambatan kegiatan kelas berkurang sekitar 30%.">Assisted 50+ lecturers and students with software setup and troubleshooting during practicum sessions, reducing delays in class activities by ~30%.</li><li data-en="Maintained inventory and basic upkeep of 83 laboratory hardware units, minimizing downtime and extending equipment lifespan by an estimated +1 additional semester." data-id="Memelihara inventaris dan perawatan dasar 83 unit perangkat keras laboratorium, sehingga waktu henti berkurang dan masa pakai peralatan bertambah sekitar 1 semester tambahan.">Maintained inventory and basic upkeep of 83 laboratory hardware units, minimizing downtime and extending equipment lifespan by an estimated +1 additional semester.</li></ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="fade">
+      <div class="section-head">
+        <span class="num mono">03.</span><h2 data-en="Projects" data-id="Proyek">Projects</h2><span class="rule"></span>
+      </div>
+
+      <div class="featured">
+        <div class="feat-text">
+          <p class="feat-label mono" data-en="Featured Project" data-id="Proyek Unggulan">Featured Project</p>
+          <h3><a href="https://repository.uin-suska.ac.id/92581/" target="_blank" rel="noreferrer">Customer Churn Prediction with GWO-Attention-ConvLSTM</a></h3>
+          <p data-en="A thesis-grade deep learning model for customer churn prediction in customer relationship management, combining Grey Wolf Optimizer tuning, Attention and ConvLSTM." data-id="Model deep learning tingkat skripsi untuk prediksi churn pelanggan dalam customer relationship management, yang menggabungkan penyetelan Grey Wolf Optimizer, Attention, dan ConvLSTM.">
+            A thesis-grade deep learning model for customer churn prediction in
+            customer relationship management, combining Grey Wolf Optimizer
+            tuning, Attention and ConvLSTM.
+          </p>
+          <ul class="feat-tech mono"><li>Python</li><li>ConvLSTM</li><li>Attention</li><li>Grey Wolf Optimizer</li></ul>
+          <p><a href="https://repository.uin-suska.ac.id/92581/" target="_blank" rel="noreferrer" data-en="View thesis" data-id="Lihat skripsi">View thesis</a></p>
+        </div>
+        <div class="feat-panel">
+          <div class="metric">AUC 0.9377</div>
+          <p data-en="Customer churn prediction, thesis-grade model." data-id="Prediksi churn pelanggan, model tingkat skripsi.">Customer churn prediction, thesis-grade model.</p>
+        </div>
+      </div>
+
+      <div class="featured reverse">
+        <div class="feat-text">
+          <p class="feat-label mono" data-en="Featured Project" data-id="Proyek Unggulan">Featured Project</p>
+          <h3><a href="https://github.com/Pdrsmth/jakarta-air-quality-ispu" target="_blank" rel="noreferrer">Jakarta Air Quality (ISPU), 2024&ndash;2025</a></h3>
+          <p data-en="Analysis of Jakarta's air quality index, built with SQL queries and a Power BI dashboard, with findings by station and pollutant." data-id="Analisis indeks kualitas udara Jakarta, yang dibangun dengan kueri SQL dan dasbor Power BI, dengan temuan berdasarkan stasiun dan polutan.">
+            Analysis of Jakarta&rsquo;s air quality index, built with SQL queries
+            and a Power BI dashboard, with findings by station and pollutant.
+          </p>
+          <ul class="feat-tech mono"><li>SQL</li><li>Power BI</li><li>Python</li><li>pandas</li></ul>
+          <p><a href="https://github.com/Pdrsmth/jakarta-air-quality-ispu" data-en="View on GitHub" data-id="Lihat di GitHub">View on GitHub</a></p>
+        </div>
+        <div class="feat-panel">
+          <div class="metric" data-en="16.3% unhealthy days" data-id="16.3% hari tidak sehat">16.3% unhealthy days</div>
+          <p data-en="Kebon Jeruk, with PM2.5 dominant at 86%." data-id="Kebon Jeruk, dengan PM2.5 dominan sebesar 86%.">Kebon Jeruk, with PM2.5 dominant at 86%.</p>
+        </div>
+      </div>
+
+      <div class="featured">
+        <div class="feat-text">
+          <p class="feat-label mono" data-en="Featured Project" data-id="Proyek Unggulan">Featured Project</p>
+          <h3><a href="https://github.com/Pdrsmth/divvy-bike-share-capstone" target="_blank" rel="noreferrer">Divvy Bike-Share Case Study</a></h3>
+          <p data-en="A bike-share case study: cleaning and analysing trip data to surface how different rider groups actually use the service, and what that means for the next decision." data-id="Studi kasus bike-share: membersihkan dan menganalisis data perjalanan untuk mengungkap bagaimana kelompok pengendara yang berbeda benar-benar menggunakan layanan ini, dan apa artinya bagi keputusan berikutnya.">
+            A bike-share case study: cleaning and analysing trip data to surface
+            how different rider groups actually use the service, and what that
+            means for the next decision.
+          </p>
+          <ul class="feat-tech mono"><li>Data cleaning</li><li>EDA</li><li>SQL</li></ul>
+          <p><a href="https://github.com/Pdrsmth/divvy-bike-share-capstone" target="_blank" rel="noreferrer" data-en="View on GitHub" data-id="Lihat di GitHub">View on GitHub</a></p>
+        </div>
+        <div class="feat-panel">
+          <div class="metric">Trip patterns</div>
+          <p data-en="Cleaned and compared, not assumed." data-id="Dibersihkan dan dibandingkan, bukan diasumsikan.">Cleaned and compared, not assumed.</p>
+        </div>
+      </div>
+
+      <div class="featured reverse">
+        <div class="feat-text">
+          <p class="feat-label mono" data-en="Featured Project" data-id="Proyek Unggulan">Featured Project</p>
+          <h3><a href="https://github.com/Pdrsmth/ibm-developer-survey-capstone" target="_blank" rel="noreferrer">IBM Data Analyst Capstone</a></h3>
+          <p data-en="Capstone project from the IBM Data Analyst programme: an end-to-end analysis from cleaning and exploration through to a dashboard and a clear, evidence-based conclusion." data-id="Proyek capstone dari program IBM Data Analyst: analisis menyeluruh dari pembersihan dan eksplorasi hingga dasbor dan kesimpulan yang jelas dan berbasis bukti.">
+            Capstone project from the IBM Data Analyst programme: an end-to-end
+            analysis from cleaning and exploration through to a dashboard and
+            a clear, evidence-based conclusion.
+          </p>
+          <ul class="feat-tech mono"><li>Python</li><li>SQL</li><li>Dashboards</li></ul>
+          <p><a href="https://github.com/Pdrsmth/ibm-developer-survey-capstone" target="_blank" rel="noreferrer" data-en="View on GitHub" data-id="Lihat di GitHub">View on GitHub</a></p>
+        </div>
+        <div class="feat-panel">
+          <div class="metric">End to end</div>
+          <p data-en="From raw data to conclusion." data-id="Dari data mentah hingga kesimpulan.">From raw data to conclusion.</p>
+        </div>
+      </div>
+
+      <h3 style="color: var(--white); margin: 0 0 30px; font-size: 24px;" data-en="Other Noteworthy Projects" data-id="Proyek Lainnya yang Patut Diperhatikan">Other Noteworthy Projects</h3>
+      <div class="grid">
+        <article class="card">
+          <div class="card-top"><div class="folder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Z"/></svg></div><div class="card-links"><a href="https://github.com/Pdrsmth/waze-churn-ml" target="_blank" rel="noreferrer" aria-label="Open project"><svg viewBox="0 0 24 24"><path d="M14 3h7v7M21 3l-9 9M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg></a></div></div>
+          <h3><a href="https://github.com/Pdrsmth/waze-churn-ml" target="_blank" rel="noreferrer">Waze</a></h3>
+          <p data-en="Data analysis case study, from exploration to a practical recommendation." data-id="Studi kasus analisis data, dari eksplorasi hingga rekomendasi praktis.">Data analysis case study, from exploration to a practical recommendation.</p>
+          <div class="tech mono">EDA &middot; Python</div>
+        </article>
+        <article class="card">
+          <div class="card-top"><div class="folder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Z"/></svg></div><div class="card-links"><a href="https://github.com/Pdrsmth/automatidata-nyc-taxi-analysis" target="_blank" rel="noreferrer" aria-label="Open project"><svg viewBox="0 0 24 24"><path d="M14 3h7v7M21 3l-9 9M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg></a></div></div>
+          <h3><a href="https://github.com/Pdrsmth/automatidata-nyc-taxi-analysis" target="_blank" rel="noreferrer">NYC Taxi</a></h3>
+          <p data-en="Taxi trip data analysis, cleaned and explored to surface usable patterns." data-id="Analisis data perjalanan taksi, dibersihkan dan dieksplorasi untuk mengungkap pola yang bisa digunakan.">Taxi trip data analysis, cleaned and explored to surface usable patterns.</p>
+          <div class="tech mono">SQL &middot; Python</div>
+        </article>
+        <article class="card">
+          <div class="card-top"><div class="folder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Z"/></svg></div><div class="card-links"><a href="https://github.com/Pdrsmth/Sistem-Absensi-SMA-N-1-Pangkalan-Koto-Baru" target="_blank" rel="noreferrer" aria-label="Open project"><svg viewBox="0 0 24 24"><path d="M14 3h7v7M21 3l-9 9M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg></a></div></div>
+          <h3><a href="https://github.com/Pdrsmth/Sistem-Absensi-SMA-N-1-Pangkalan-Koto-Baru" target="_blank" rel="noreferrer">Web Attendance System</a></h3>
+          <p data-en="A web-based attendance system built for real administrative use." data-id="Sistem absensi berbasis web yang dibangun untuk penggunaan administrasi nyata.">A web-based attendance system built for real administrative use.</p>
+          <div class="tech mono">PHP &middot; MySQL</div>
+        </article>
+        <article class="card">
+          <div class="card-top"><div class="folder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Z"/></svg></div><div class="card-links"><a href="https://fotocopytaprint.netlify.app" target="_blank" rel="noreferrer" aria-label="Open project"><svg viewBox="0 0 24 24"><path d="M14 3h7v7M21 3l-9 9M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg></a></div></div>
+          <h3><a href="https://fotocopytaprint.netlify.app" target="_blank" rel="noreferrer">Fotocopy TaPrint Website</a></h3>
+          <p data-en="Website for a photocopy, printing and snack shop serving students." data-id="Situs web untuk toko fotokopi, percetakan, dan camilan yang melayani mahasiswa.">Website for a photocopy, printing and snack shop serving students.</p>
+          <div class="tech mono">Web</div>
+        </article>
+        <article class="card">
+          <div class="card-top"><div class="folder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Z"/></svg></div><div class="card-links"><a href="https://github.com/Pdrsmth/bunda-jaya-elektronik" target="_blank" rel="noreferrer" aria-label="Open project"><svg viewBox="0 0 24 24"><path d="M14 3h7v7M21 3l-9 9M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg></a></div></div>
+          <h3><a href="https://github.com/Pdrsmth/bunda-jaya-elektronik" target="_blank" rel="noreferrer">Bunda Jaya Elektronik Bookkeeping</a></h3>
+          <p data-en="Bookkeeping system for a family electronics shop, built for daily use." data-id="Sistem pembukuan untuk toko elektronik keluarga, yang dibangun untuk penggunaan sehari-hari.">Bookkeeping system for a family electronics shop, built for daily use.</p>
+          <div class="tech mono">Google Sheets &middot; Apps Script</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="journey" class="fade">
+      <div class="section-head">
+        <span class="num mono">03b.</span><h2 data-en="Journey and Organisations" data-id="Perjalanan dan Organisasi">Journey and Organisations</h2><span class="rule"></span>
+      </div>
+      <div class="orgs">
+        <article class="plain-card">
+          <h3 data-en="Chief Executive, FORTASI" data-id="Ketua Pelaksana, FORTASI">Chief Executive, FORTASI</h3>
+          <p data-en="Led a 75-person organising committee." data-id="Memimpin panitia beranggotakan 75 orang.">Led a 75-person organising committee.</p>
+        </article>
+        <article class="plain-card">
+          <h3 data-en="Head of Public Relations, Predatech" data-id="Kepala Hubungan Masyarakat, Predatech">Head of Public Relations, Predatech</h3>
+          <p data-en="Led public relations for the organisation." data-id="Memimpin hubungan masyarakat untuk organisasi tersebut.">Led public relations for the organisation.</p>
+        </article>
+        <article class="plain-card">
+          <h3 data-en="Head of Member Resources, DEMA FST" data-id="Kepala Sumber Daya Anggota, DEMA FST">Head of Member Resources, DEMA FST</h3>
+          <p data-en="Led member resources for the faculty student organisation." data-id="Memimpin sumber daya anggota untuk organisasi mahasiswa fakultas.">Led member resources for the faculty student organisation.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="certifications" class="fade">
+      <div class="section-head">
+        <span class="num mono">04.</span><h2 data-en="Certifications" data-id="Sertifikasi">Certifications</h2><span class="rule"></span>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="card-top"><div class="folder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Z"/></svg></div><div class="card-links" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7M21 3l-9 9M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg></div></div>
+          <h3>Google Data Analytics</h3>
+          <p data-en="Professional Certificate · Google (Coursera) · 2026" data-id="Sertifikat Profesional · Google (Coursera) · 2026">Professional Certificate &middot; Google (Coursera) &middot; 2026</p>
+          <div class="tech mono"><a href="https://coursera.org/verify/professional-cert/N7KTSSFBAH6S" data-en="Verify certificate" data-id="Verifikasi sertifikat">Verify certificate</a></div>
+        </article>
+        <article class="card">
+          <div class="card-top"><div class="folder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Z"/></svg></div><div class="card-links" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7M21 3l-9 9M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg></div></div>
+          <h3>Google Advanced Data Analytics</h3>
+          <p data-en="Professional Certificate · Google (Coursera) · 2026" data-id="Sertifikat Profesional · Google (Coursera) · 2026">Professional Certificate &middot; Google (Coursera) &middot; 2026</p>
+          <div class="tech mono"><a href="https://coursera.org/verify/professional-cert/CPDCE6PTK49P" data-en="Verify certificate" data-id="Verifikasi sertifikat">Verify certificate</a></div>
+        </article>
+        <article class="card">
+          <div class="card-top"><div class="folder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Z"/></svg></div><div class="card-links" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7M21 3l-9 9M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg></div></div>
+          <h3>Google AI Essentials</h3>
+          <p data-en="Specialization · Google (Coursera) · 2026" data-id="Spesialisasi · Google (Coursera) · 2026">Specialization &middot; Google (Coursera) &middot; 2026</p>
+          <div class="tech mono"><a href="https://coursera.org/verify/specialization/XPYQ0A6FCJFT" data-en="Verify certificate" data-id="Verifikasi sertifikat">Verify certificate</a></div>
+        </article>
+        <article class="card">
+          <div class="card-top"><div class="folder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Z"/></svg></div><div class="card-links" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7M21 3l-9 9M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg></div></div>
+          <h3>IBM Data Analyst</h3>
+          <p data-en="Professional Certificate · IBM (Coursera) · 2026" data-id="Sertifikat Profesional · IBM (Coursera) · 2026">Professional Certificate &middot; IBM (Coursera) &middot; 2026</p>
+          <div class="tech mono"><a href="https://coursera.org/verify/professional-cert/XGUTOAQS3IYQ" data-en="Verify certificate" data-id="Verifikasi sertifikat">Verify certificate</a></div>
+        </article>
+        <article class="card">
+          <div class="card-top"><div class="folder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Z"/></svg></div><div class="card-links" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7M21 3l-9 9M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg></div></div>
+          <h3>Meta Data Analyst</h3>
+          <p data-en="Professional Certificate · Meta (Coursera) · 2026" data-id="Sertifikat Profesional · Meta (Coursera) · 2026">Professional Certificate &middot; Meta (Coursera) &middot; 2026</p>
+          <div class="tech mono"><a href="https://coursera.org/verify/professional-cert/ZT7FS4COF2JR" data-en="Verify certificate" data-id="Verifikasi sertifikat">Verify certificate</a></div>
+        </article>
+        <article class="card">
+          <div class="card-top"><div class="folder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Z"/></svg></div><div class="card-links" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7M21 3l-9 9M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg></div></div>
+          <h3>Generative AI Data Analyst</h3>
+          <p data-en="Specialization · Vanderbilt University (Coursera) · 2026" data-id="Spesialisasi · Vanderbilt University (Coursera) · 2026">Specialization &middot; Vanderbilt University (Coursera) &middot; 2026</p>
+          <div class="tech mono"><a href="https://coursera.org/verify/specialization/573484R8VLK1" data-en="Verify certificate" data-id="Verifikasi sertifikat">Verify certificate</a></div>
+        </article>
+        <article class="card">
+          <div class="card-top"><div class="folder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Z"/></svg></div><div class="card-links" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7M21 3l-9 9M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg></div></div>
+          <h3>Operating Generative AI Tools for Digital Content and Business</h3>
+          <p>BNSP &middot; 2025</p>
+          <div class="tech mono" data-en="Certificate on file" data-id="Sertifikat tersedia">Certificate on file</div>
+        </article>
+        <article class="card">
+          <div class="card-top"><div class="folder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Z"/></svg></div><div class="card-links" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7M21 3l-9 9M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg></div></div>
+          <h3>Computer Technical Support</h3>
+          <p>BNSP &middot; 2022</p>
+          <div class="tech mono" data-en="Certificate on file" data-id="Sertifikat tersedia">Certificate on file</div>
+        </article>
+        <article class="card">
+          <div class="card-top"><div class="folder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Z"/></svg></div><div class="card-links" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7M21 3l-9 9M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg></div></div>
+          <h3>AI Career Readiness (Kesiapan Karier AI)</h3>
+          <p>ASEAN Foundation (AHEAD) &middot; 2026</p>
+          <div class="tech mono" data-en="Certificate on file" data-id="Sertifikat tersedia">Certificate on file</div>
+        </article>
+      </div>
+      <p style="margin-top: 24px;"><a href="https://drive.google.com/drive/folders/1NZgfLpeuHptNE-9ElniLAdQgUjS9Dcn2" data-en="See all certificates" data-id="Lihat semua sertifikat">See all certificates</a></p>
+    </section>
+
+    <section id="contact" class="fade">
+      <div class="contact">
+        <p class="label mono" data-en="05. What's Next?" data-id="05. Selanjutnya?">05. What&rsquo;s Next?</p>
+        <h2 data-en="Get In Touch" data-id="Hubungi Saya">Get In Touch</h2>
+        <p data-en="I am looking for Data and AI Analyst roles where the work is judged by its evidence. If a role, project or dataset fits that, my inbox is open." data-id="Saya mencari peran Data and AI Analyst yang pekerjaannya dinilai dari buktinya. Jika ada peran, proyek, atau dataset yang cocok, kotak masuk saya terbuka.">
+          I am looking for Data and AI Analyst roles where the work is judged by
+          its evidence. If a role, project or dataset fits that, my inbox is open.
+        </p>
+        <div class="cta"><a class="btn" href="https://mail.google.com/mail/?view=cm&fs=1&to=pedromasdy9@gmail.com" target="_blank" rel="noreferrer" data-en="Say Hello" data-id="Sapa Saya">Say Hello</a></div>
+        <div class="contact-links">
+          <a href="mailto:pedromasdy9@gmail.com">Email</a>
+          <a href="https://linkedin.com/in/pedro-masdy/">LinkedIn</a>
+          <a href="https://github.com/Pdrsmth">GitHub</a>
+          <a href="https://pedromasdy.my.id">Portfolio</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mono" data-en="Designed &amp; Built by Pedro Masdy" data-id="Dirancang &amp; Dibuat oleh Pedro Masdy">Designed &amp; Built by Pedro Masdy</footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll(".fade").forEach((el) => observer.observe(el));
+
+    const tabs = document.querySelectorAll(".job-tabs button");
+    const panels = document.querySelectorAll(".job-panel");
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((t) => t.setAttribute("aria-selected", "false"));
+        tabs.forEach((t) => t.classList.remove("active"));
+        panels.forEach((p) => p.classList.remove("active"));
+        tab.setAttribute("aria-selected", "true");
+        tab.classList.add("active");
+        const panel = document.getElementById("job-" + tab.dataset.job);
+        if (panel) panel.classList.add("active");
+      });
+    });
+
+    const langButtons = document.querySelectorAll("[data-lang-btn]");
+    function setLang(lang) {
+      document.querySelectorAll("[data-en]").forEach((el) => {
+        el.textContent = lang === "id" ? el.dataset.id : el.dataset.en;
+      });
+      document.documentElement.lang = lang;
+      try { localStorage.setItem("pm-lang", lang); } catch (e) {}
+      langButtons.forEach((b) => {
+        const active = b.dataset.langBtn === lang;
+        b.classList.toggle("active", active);
+        b.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+    }
+    langButtons.forEach((b) => b.addEventListener("click", () => setLang(b.dataset.langBtn)));
+    let savedLang = "en";
+    try { savedLang = localStorage.getItem("pm-lang") === "id" ? "id" : "en"; } catch (e) {}
+    setLang(savedLang);
+  </script>
+</body>
+</html>
